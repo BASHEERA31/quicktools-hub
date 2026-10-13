@@ -2,233 +2,489 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QuickTools Hub</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #202b3c;
-    }
-    header {
-      background: #173b65;
-      color: white;
-      text-align: center;
-      padding: 30px 16px;
-    }
-    header h1 { margin: 0 0 10px; }
-    header p { margin: 0; }
-    main {
-      max-width: 950px;
-      margin: 25px auto;
-      padding: 0 16px;
-    }
-    .tool {
-      background: white;
-      padding: 20px;
-      margin-bottom: 18px;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px #0000000d;
-    }
-    h2 { margin-top: 0; color: #173b65; }
-    textarea, input[type="text"], input[type="number"], select {
-      width: 100%;
-      padding: 11px;
-      margin: 7px 0 12px;
-      border: 1px solid #ccd4df;
-      border-radius: 7px;
-      font: inherit;
-    }
-    textarea { min-height: 100px; resize: vertical; }
-    button {
-      background: #1769aa;
-      color: white;
-      border: 0;
-      border-radius: 7px;
-      padding: 10px 15px;
-      margin: 3px 4px 3px 0;
-      cursor: pointer;
-      font-size: 15px;
-    }
-    button:hover { background: #104d80; }
-    .result { overflow-wrap: anywhere; margin-top: 10px; }
-    label { display: inline-block; margin: 5px 10px 5px 0; }
-    footer { text-align: center; padding: 20px; color: #596579; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f7f5ed">
+<meta name="description" content="QuickTools Hub offers simple, free tools for writing, text formatting, secure password generation and image resizing.">
+<title>QuickTools Hub — Everyday tools, beautifully simple</title>
+<style>
+:root {
+  --cream: #f7f5ed;
+  --paper: #fffef9;
+  --sage: #dfe8d9;
+  --green: #52694e;
+  --deep: #293c2b;
+  --muted: #777c70;
+  --line: #e6e5d9;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--deep);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+}
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+header {
+  padding: 18px 6%;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255,254,249,.9);
+}
+.nav {
+  max-width: 1120px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.brand {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -.5px;
+}
+.brand-icon {
+  display: grid;
+  place-items: center;
+  background: var(--green);
+  color: white;
+  width: 39px;
+  height: 39px;
+  border-radius: 13px;
+  font-size: 22px;
+}
+.nav a {
+  text-decoration: none;
+  color: var(--green);
+  font-weight: 700;
+  font-size: 14px;
+}
+main { max-width: 1120px; padding: 0 24px; margin: auto; }
+.hero {
+  padding: 76px 0 48px;
+  max-width: 760px;
+}
+.eyebrow {
+  display: inline-block;
+  padding: 6px 12px;
+  background: var(--sage);
+  color: var(--green);
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+h1 {
+  font-size: clamp(38px, 6vw, 65px);
+  line-height: 1.08;
+  letter-spacing: -2.8px;
+  margin: 22px 0 18px;
+}
+h1 span { color: var(--green); }
+.hero p {
+  color: var(--muted);
+  max-width: 560px;
+  font-size: 17px;
+  margin-bottom: 27px;
+}
+.primary-link {
+  display: inline-block;
+  background: var(--green);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+}
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 12px;
+  margin: 18px 0 22px;
+}
+h2 { font-size: 26px; letter-spacing: -.8px; margin: 0; }
+.section-head p { color: var(--muted); margin: 4px 0 0; font-size: 14px; }
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  padding-bottom: 65px;
+}
+.tool-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 25px;
+  min-width: 0;
+  box-shadow: 0 5px 18px rgba(48,60,40,.025);
+}
+.tool-card:hover {
+  border-color: #bdcbb6;
+  box-shadow: 0 10px 30px rgba(48,60,40,.06);
+}
+.tool-icon {
+  width: 47px;
+  height: 47px;
+  border-radius: 15px;
+  background: var(--sage);
+  display: grid;
+  place-items: center;
+  font-size: 23px;
+  margin-bottom: 14px;
+}
+.tool-card h3 { font-size: 19px; margin: 0 0 5px; }
+.tool-card .desc { color: var(--muted); font-size: 13px; margin: 0 0 18px; }
+label { display: block; font-size: 13px; font-weight: 700; margin: 13px 0 6px; }
+textarea, input[type="number"], select, input[type="text"] {
+  width: 100%;
+  border: 1px solid #dedfd3;
+  border-radius: 11px;
+  background: #fff;
+  color: var(--deep);
+  padding: 11px 12px;
+  outline: none;
+}
+textarea { resize: vertical; min-height: 112px; }
+textarea:focus, input:focus, select:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(82,105,78,.12);
+}
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.btn {
+  border: 0;
+  background: var(--green);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 13px;
+}
+.btn:hover { background: var(--deep); }
+.btn.secondary {
+  color: var(--green);
+  background: var(--sage);
+}
+.btn.secondary:hover { background: #d1dfca; }
+.result {
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 12px;
+  overflow-wrap: anywhere;
+}
+.stats {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.stat {
+  background: #f1f2e9;
+  border-radius: 10px;
+  padding: 8px 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.stat strong { color: var(--deep); font-size: 15px; margin-right: 4px; }
+.option-row { display: flex; flex-wrap: wrap; gap: 13px; margin: 12px 0; }
+.option-row label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  margin: 0;
+}
+.option-row input { accent-color: var(--green); }
+.file-input { width: 100%; font-size: 13px; margin: 8px 0; }
+footer {
+  border-top: 1px solid var(--line);
+  padding: 28px 24px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+footer strong { color: var(--green); }
+@media (max-width: 650px) {
+  header { padding: 14px 20px; }
+  main { padding: 0 16px; }
+  .hero { padding: 52px 0 35px; }
+  h1 { letter-spacing: -1.8px; }
+  .tool-grid { grid-template-columns: 1fr; gap: 13px; }
+  .tool-card { padding: 21px; }
+  .section-head { align-items: start; flex-direction: column; }
+}
+</style>
 </head>
 <body>
-  <header>
-    <h1>QuickTools Hub</h1>
-    <p>Simple, free tools to make everyday tasks easier.</p>
-  </header>
+<header>
+  <div class="nav">
+    <div class="brand"><span class="brand-icon">✳</span> QuickTools Hub</div>
+    <a href="#tools">Explore tools ↘</a>
+  </div>
+</header>
 
-  <main>
-    <section class="tool">
-      <h2>1. Word Counter</h2>
-      <textarea id="wordText" placeholder="Type or paste your text here..."></textarea>
-      <p class="result" id="wordResult">Words: 0 | Characters: 0</p>
-      <button onclick="countWords()">Count Text</button>
-    </section>
+<main>
+  <section class="hero">
+    <span class="eyebrow">✦ Your everyday toolkit</span>
+    <h1>Little tools.<br><span>Big help.</span></h1>
+    <p>Simple, useful tools for everyday tasks. Count words, format text, create passwords and resize images — all in one calm, easy-to-use space.</p>
+    <a class="primary-link" href="#tools">Explore all tools &nbsp; →</a>
+  </section>
 
-    <section class="tool">
-      <h2>2. Text Case Converter</h2>
-      <textarea id="caseText" placeholder="Enter text to convert..."></textarea>
-      <button onclick="convertCase('upper')">UPPERCASE</button>
-      <button onclick="convertCase('lower')">lowercase</button>
-      <button onclick="convertCase('title')">Title Case</button>
-      <p class="result" id="caseResult"></p>
-    </section>
+  <section id="tools">
+    <div class="section-head">
+      <div>
+        <h2>Your toolkit</h2>
+        <p>Five handy tools, ready when you need them.</p>
+      </div>
+    </div>
 
-    <section class="tool">
-      <h2>3. Character Counter</h2>
-      <textarea id="charText" placeholder="Enter text to count characters..."></textarea>
-      <p class="result" id="charResult">With spaces: 0 | Without spaces: 0</p>
-      <button onclick="countCharacters()">Count Characters</button>
-    </section>
+    <div class="tool-grid">
+      <article class="tool-card">
+        <div class="tool-icon">✍️</div>
+        <h3>Word Counter</h3>
+        <p class="desc">Count words and characters in your text.</p>
+        <label for="wordText">Your text</label>
+        <textarea id="wordText" placeholder="Start typing or paste your text..." oninput="countWords()"></textarea>
+        <div class="stats">
+          <div class="stat"><strong id="wordCount">0</strong> words</div>
+          <div class="stat"><strong id="wordChars">0</strong> characters</div>
+        </div>
+      </article>
 
-    <section class="tool">
-      <h2>4. Password Generator</h2>
-      <label for="passLength">Password length (8–64):</label>
-      <input id="passLength" type="number" min="8" max="64" value="16">
-      <label><input id="passUpper" type="checkbox" checked> Uppercase</label>
-      <label><input id="passLower" type="checkbox" checked> Lowercase</label>
-      <label><input id="passNumbers" type="checkbox" checked> Numbers</label>
-      <label><input id="passSymbols" type="checkbox" checked> Symbols</label>
-      <button onclick="generatePassword()">Generate Password</button>
-      <p class="result" id="passResult"></p>
-      <button onclick="copyPassword()">Copy Password</button>
-    </section>
+      <article class="tool-card">
+        <div class="tool-icon">🔠</div>
+        <h3>Text Case Converter</h3>
+        <p class="desc">Switch between uppercase, lowercase and title case.</p>
+        <label for="caseInput">Your text</label>
+        <textarea id="caseInput" placeholder="Enter text to transform..."></textarea>
+        <div class="actions">
+          <button class="btn" onclick="convertCase('upper')">UPPERCASE</button>
+          <button class="btn secondary" onclick="convertCase('lower')">lowercase</button>
+          <button class="btn secondary" onclick="convertCase('title')">Title Case</button>
+        </div>
+        <label for="caseOutput">Converted text</label>
+        <textarea id="caseOutput" placeholder="Your result will appear here..."></textarea>
+        <div class="actions"><button class="btn secondary" onclick="copyText('caseOutput','caseStatus')">Copy result</button></div>
+        <div class="result" id="caseStatus" aria-live="polite"></div>
+      </article>
 
-    <section class="tool">
-      <h2>5. Image Resizer</h2>
-      <p>Select an image, enter the desired dimensions, then download the resized copy.</p>
-      <input id="imageFile" type="file" accept="image/*">
-      <label for="imgWidth">Width (pixels):</label>
-      <input id="imgWidth" type="number" min="1" max="10000" value="800">
-      <label for="imgHeight">Height (pixels):</label>
-      <input id="imgHeight" type="number" min="1" max="10000" value="600">
-      <label for="imgFormat">Format:</label>
-      <select id="imgFormat">
-        <option value="image/png">PNG</option>
-        <option value="image/jpeg">JPEG</option>
-        <option value="image/webp">WebP</option>
-      </select>
-      <button onclick="resizeImage()">Resize and Download</button>
-      <p class="result" id="imageResult"></p>
-    </section>
-  </main>
+      <article class="tool-card">
+        <div class="tool-icon">🔡</div>
+        <h3>Character Counter</h3>
+        <p class="desc">See the exact character count, with and without spaces.</p>
+        <label for="charInput">Your text</label>
+        <textarea id="charInput" placeholder="Type something here..." oninput="countCharacters()"></textarea>
+        <div class="stats">
+          <div class="stat"><strong id="charWith">0</strong> with spaces</div>
+          <div class="stat"><strong id="charWithout">0</strong> without spaces</div>
+        </div>
+      </article>
 
-  <footer>© 2026 QuickTools Hub · Simple tools for everyday use</footer>
+      <article class="tool-card">
+        <div class="tool-icon">🔐</div>
+        <h3>Password Generator</h3>
+        <p class="desc">Generate a random password with your preferred characters.</p>
+        <label for="passLength">Password length (8–64)</label>
+        <input id="passLength" type="number" min="8" max="64" value="16">
+        <div class="option-row">
+          <label><input type="checkbox" id="passUpper" checked> A–Z</label>
+          <label><input type="checkbox" id="passLower" checked> a–z</label>
+          <label><input type="checkbox" id="passNumbers" checked> 0–9</label>
+          <label><input type="checkbox" id="passSymbols" checked> Symbols</label>
+        </div>
+        <div class="actions"><button class="btn" onclick="generatePassword()">Generate password</button></div>
+        <label for="passOutput">Your password</label>
+        <input id="passOutput" type="text" readonly placeholder="Your password will appear here">
+        <div class="actions"><button class="btn secondary" onclick="copyText('passOutput','passStatus')">Copy password</button></div>
+        <div class="result" id="passStatus" aria-live="polite"></div>
+      </article>
 
-  <script>
-    function countWords() {
-      const text = document.getElementById('wordText').value.trim();
-      const words = text ? text.split(/\s+/).length : 0;
-      document.getElementById('wordResult').textContent =
-        `Words: ${words} | Characters: ${document.getElementById('wordText').value.length}`;
-    }
+      <article class="tool-card">
+        <div class="tool-icon">🖼️</div>
+        <h3>Image Resizer</h3>
+        <p class="desc">Resize an image and download a PNG, JPEG or WebP copy.</p>
+        <label for="imageFile">Choose an image</label>
+        <input class="file-input" id="imageFile" type="file" accept="image/*">
+        <div class="option-row">
+          <label style="display:block;flex:1">Width (px)
+            <input id="imageWidth" type="number" min="1" max="10000" value="800">
+          </label>
+          <label style="display:block;flex:1">Height (px)
+            <input id="imageHeight" type="number" min="1" max="10000" value="600">
+          </label>
+        </div>
+        <label for="imageFormat">Output format</label>
+        <select id="imageFormat">
+          <option value="image/png">PNG</option>
+          <option value="image/jpeg">JPEG</option>
+          <option value="image/webp">WebP</option>
+        </select>
+        <div class="actions"><button class="btn" onclick="resizeImage()">Resize and download</button></div>
+        <div class="result" id="imageStatus" aria-live="polite"></div>
+      </article>
+    </div>
+  </section>
+</main>
 
-    function convertCase(type) {
-      const field = document.getElementById('caseText');
-      const text = field.value;
-      if (type === 'upper') field.value = text.toUpperCase();
-      if (type === 'lower') field.value = text.toLowerCase();
-      if (type === 'title') {
-        field.value = text.toLowerCase().replace(/\b\w/g, letter => letter.toUpperCase());
-      }
-      document.getElementById('caseResult').textContent = 'Text converted successfully.';
-    }
+<footer>
+  <strong>QuickTools Hub</strong> · Simple tools for everyday life.<br>
+  <span>Use tools thoughtfully. Passwords are generated in your browser.</span>
+</footer>
 
-    function countCharacters() {
-      const text = document.getElementById('charText').value;
-      document.getElementById('charResult').textContent =
-        `With spaces: ${text.length} | Without spaces: ${text.replace(/\s/g, '').length}`;
-    }
+<script>
+function countWords() {
+  const text = document.getElementById('wordText').value;
+  const words = text.trim() ? text.trim().split(/\s+/u).length : 0;
+  document.getElementById('wordCount').textContent = words;
+  document.getElementById('wordChars').textContent = text.length;
+}
 
-    function generatePassword() {
-      const length = Number(document.getElementById('passLength').value);
-      if (!Number.isInteger(length) || length < 8 || length > 64) {
-        document.getElementById('passResult').textContent = 'Choose a length from 8 to 64.';
+function convertCase(type) {
+  const text = document.getElementById('caseInput').value;
+  let result = text;
+  if (type === 'upper') result = text.toUpperCase();
+  if (type === 'lower') result = text.toLowerCase();
+  if (type === 'title') {
+    result = text.toLowerCase().replace(/(^|[\s\-–—])(\p{L})/gu,
+      (_, separator, letter) => separator + letter.toUpperCase());
+  }
+  document.getElementById('caseOutput').value = result;
+  document.getElementById('caseStatus').textContent = 'Text converted successfully.';
+}
+
+function countCharacters() {
+  const text = document.getElementById('charInput').value;
+  document.getElementById('charWith').textContent = text.length;
+  document.getElementById('charWithout').textContent = text.replace(/\s/gu, '').length;
+}
+
+async function copyText(inputId, statusId) {
+  const field = document.getElementById(inputId);
+  const status = document.getElementById(statusId);
+  if (!field.value) {
+    status.textContent = 'There is nothing to copy yet.';
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(field.value);
+    status.textContent = 'Copied to clipboard!';
+  } catch {
+    field.focus();
+    field.select();
+    const ok = document.execCommand('copy');
+    status.textContent = ok ? 'Copied to clipboard!' : 'Copy unavailable. Please select and copy the text.';
+  }
+}
+
+function generatePassword() {
+  const length = Number(document.getElementById('passLength').value);
+  if (!Number.isInteger(length) || length < 8 || length > 64) {
+    document.getElementById('passStatus').textContent = 'Choose a length from 8 to 64.';
+    return;
+  }
+
+  const groups = [];
+  if (document.getElementById('passUpper').checked) groups.push('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+  if (document.getElementById('passLower').checked) groups.push('abcdefghijklmnopqrstuvwxyz');
+  if (document.getElementById('passNumbers').checked) groups.push('0123456789');
+  if (document.getElementById('passSymbols').checked) groups.push('!@#$%^&*()-_=+[]{}?');
+
+  const status = document.getElementById('passStatus');
+  if (!groups.length) {
+    status.textContent = 'Select at least one character type.';
+    return;
+  }
+
+  const all = groups.join('');
+  const randomIndex = max => {
+    const limit = Math.floor(256 / max) * max;
+    const byte = new Uint8Array(1);
+    do { crypto.getRandomValues(byte); } while (byte[0] >= limit);
+    return byte[0] % max;
+  };
+
+  const chars = groups.map(group => group[randomIndex(group.length)]);
+  while (chars.length < length) chars.push(all[randomIndex(all.length)]);
+
+  for (let i = chars.length - 1; i > 0; i--) {
+    const j = randomIndex(i + 1);
+    [chars[i], chars[j]] = [chars[j], chars[i]];
+  }
+
+  document.getElementById('passOutput').value = chars.join('');
+  status.textContent = 'Password generated. Never reuse important passwords.';
+}
+
+function resizeImage() {
+  const fileInput = document.getElementById('imageFile');
+  const status = document.getElementById('imageStatus');
+  const width = Number(document.getElementById('imageWidth').value);
+  const height = Number(document.getElementById('imageHeight').value);
+  const format = document.getElementById('imageFormat').value;
+
+  if (!fileInput.files.length) {
+    status.textContent = 'Please choose an image first.';
+    return;
+  }
+  if (!Number.isInteger(width) || !Number.isInteger(height) ||
+      width < 1 || height < 1 || width > 10000 || height > 10000) {
+    status.textContent = 'Enter dimensions between 1 and 10,000 pixels.';
+    return;
+  }
+
+  const file = fileInput.files[0];
+  if (!file.type.startsWith('image/')) {
+    status.textContent = 'Please select a valid image file.';
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onerror = () => status.textContent = 'Could not read this image.';
+  reader.onload = event => {
+    const img = new Image();
+    img.onerror = () => status.textContent = 'Could not load this image.';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        status.textContent = 'Image resizing is unavailable in this browser.';
         return;
       }
-      const groups = [];
-      if (document.getElementById('passUpper').checked) groups.push('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-      if (document.getElementById('passLower').checked) groups.push('abcdefghijklmnopqrstuvwxyz');
-      if (document.getElementById('passNumbers').checked) groups.push('0123456789');
-      if (document.getElementById('passSymbols').checked) groups.push('!@#$%^&*()-_=+');
-      if (!groups.length) {
-        document.getElementById('passResult').textContent = 'Select at least one character type.';
-        return;
+      if (format === 'image/jpeg') {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, width, height);
       }
-      const chars = groups.join('');
-      const randomIndex = max => {
-        const limit = Math.floor(256 / max) * max;
-        const bytes = new Uint8Array(1);
-        do { crypto.getRandomValues(bytes); } while (bytes[0] >= limit);
-        return bytes[0] % max;
-      };
-      const passwordChars = groups.map(group => group[randomIndex(group.length)]);
-      while (passwordChars.length < length) {
-        passwordChars.push(chars[randomIndex(chars.length)]);
-      }
-      for (let i = passwordChars.length - 1; i > 0; i--) {
-        const j = randomIndex(i + 1);
-        [passwordChars[i], passwordChars[j]] = [passwordChars[j], passwordChars[i]];
-      }
-      document.getElementById('passResult').textContent = passwordChars.join('');
-    }
-
-    async function copyPassword() {
-      const password = document.getElementById('passResult').textContent;
-      if (!password || password.includes('Choose') || password.includes('Select')) return;
-      try {
-        await navigator.clipboard.writeText(password);
-        document.getElementById('passResult').textContent = password + ' (Copied!)';
-      } catch {
-        document.getElementById('passResult').textContent =
-          password + ' — Please select and copy it manually.';
-      }
-    }
-
-    function resizeImage() {
-      const file = document.getElementById('imageFile').files[0];
-      const width = Number(document.getElementById('imgWidth').value);
-      const height = Number(document.getElementById('imgHeight').value);
-      const format = document.getElementById('imgFormat').value;
-      const result = document.getElementById('imageResult');
-      if (!file) { result.textContent = 'Please choose an image first.'; return; }
-      if (!Number.isInteger(width) || !Number.isInteger(height) ||
-          width < 1 || height < 1 || width > 10000 || height > 10000) {
-        result.textContent = 'Enter width and height between 1 and 10000 pixels.';
-        return;
-      }
-      const image = new Image();
-      const url = URL.createObjectURL(file);
-      image.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        canvas.getContext('2d').drawImage(image, 0, 0, width, height);
-        canvas.toBlob(blob => {
-          URL.revokeObjectURL(url);
-          if (!blob) { result.textContent = 'Could not resize this image.'; return; }
-          const link = document.createElement('a');
-          link.href = URL.createObjectURL(blob);
-          link.download = `resized-image.${format.split('/')[1]}`;
-          link.click();
-          setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-          result.textContent = `Done! Resized to ${width} × ${height} pixels.`;
-        }, format, 0.92);
-      };
-      image.onerror = () => {
-        URL.revokeObjectURL(url);
-        result.textContent = 'Could not open this image. Try another file.';
-      };
-      image.src = url;
-    }
-  </script>
+      ctx.drawImage(img, 0, 0, width, height);
+      canvas.toBlob(blob => {
+        if (!blob) {
+          status.textContent = 'Could not create the resized image.';
+          return;
+        }
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        const extension = format.split('/')[1];
+        link.href = url;
+        link.download = 'resized-image.' + extension;
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        status.textContent = 'Your resized image has been downloaded.';
+      }, format, 0.92);
+    };
+    img.src = event.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+</script>
 </body>
 </html>
